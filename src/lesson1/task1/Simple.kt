@@ -102,7 +102,6 @@ fun thirdDigit(number: Int): Int = (number%1000)/100
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
         (hoursArrive*60+minutesArrive)-(hoursDepart*60+minutesDepart)
-
 /**
  * Простая
  *
@@ -114,8 +113,6 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
     val proc = percent/100.0+1
     return initial*proc*proc*proc
 }
-
-
 /**
  * Простая
  *
