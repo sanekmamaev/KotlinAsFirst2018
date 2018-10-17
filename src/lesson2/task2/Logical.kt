@@ -4,6 +4,7 @@ package lesson2.task2
 import lesson1.task1.sqr
 import kotlin.math.abs
 import kotlin.math.sqrt
+import lesson1.task1.trackLength
 
 /**
  * Пример
@@ -20,12 +21,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val first = number/1000 + (number/100)%10
-    val second = number%10 + (number % 100)/10
-    return when{
-        first == second -> true
-        else -> false
-    }
+    val first = number/1000+(number/100)%10
+    val second = number%10+(number % 100)/10
+    return first == second
 }
 
 /**
@@ -36,10 +34,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return when{
-        (x1 != x2) && (y1 != y2) && (abs(x1-x2) != abs(y1-y2)) -> false
-        else -> true
-    }
+    return (x1 == x2) || (y1 == y2) || (abs(x1-x2) == abs(y1-y2))
 }
 
 
@@ -52,7 +47,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
 fun daysInMonth(month: Int, year: Int): Int {
          return when (month){
             1,3,5,7,8,10,12-> 31
-            2 -> if ((year % 4 == 0) && (year % 400 != 100)&&(year % 400 != 200)&&(year % 400 != 300)) 29 else 28
+            2 -> if ((year % 4 == 0)&&(year % 400 != 100)&&(year % 400 != 200)&&(year % 400 != 300)) 29 else 28
             else -> 30
         }
 }
@@ -66,11 +61,8 @@ fun daysInMonth(month: Int, year: Int): Int {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    val rs=r2-sqrt(sqr(x1-x2)+ sqr(y1-y2))
-    return when {
-        rs >= r1 -> true
-        else -> false
-    }
+    val rs=r2- trackLength(x1,y1,x2,y2)
+    return rs >= r1
 }
 
 /**
@@ -83,13 +75,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val first = minOf(a,b,c)
-    val ma = maxOf(a,b,c)
-    val second = a+b+c-first-ma
-    val third = minOf(r,s)
-    val fourth = maxOf (r,s)
-    return when{
-        (first <= third) && (second <= fourth) -> true
-        else -> false
-    }
+    val first=minOf(a,b,c)
+    val max=maxOf(a,b,c)
+    val second=a+b+c-first-max
+    val third=minOf(r,s)
+    val fourth=maxOf(r,s)
+    return ((first <= third) && (second <= fourth))
 }

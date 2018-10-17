@@ -66,8 +66,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        (age % 10 == 1) && (age != 11) && (age != 111 ) -> "$age год"
-        (age % 10 in 2..4) && ((age > 20) || (age < 5)) -> "$age года"
+        (age % 10 == 1)&&(age != 11)&&(age != 111 ) -> "$age год"
+        (age % 10 in 2..4)&&((age % 100 > 20) || (age < 5)) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -82,10 +82,10 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s = (t1*v1+t2*v2+t3*v3) /2.0
+    val s = (t1*v1+t2*v2+v3*t3)/2.0
     return when {
-        t1*v1 > s -> s / v1
-        t1*v1+t2*v2 > s -> (s-t1*v1) / v2+t1
+        t1*v1>=s -> s/v1
+        t1*v1+t2*v2>=s -> (s-t1*v1)/v2+t1
         else -> (s-t1*v1-t2*v2)/v3+t1+t2
     }
 }
@@ -104,7 +104,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     return when {
         (kingX != rookX1) && (kingX != rookX2) && (kingY != rookY1) && (kingY != rookY2) -> 0
-        (kingX == rookX1) || (kingY == rookY1) && (kingX != rookX2) && (kingY != rookY2) -> 1
+        ((kingX == rookX1) || (kingY == rookY1)) && (kingX != rookX2) && (kingY != rookY2) -> 1
         ((kingX == rookX2) || (kingY == rookY2)) && (kingX != rookX1) && (kingY != rookY1)-> 2
         else -> 3
     }
@@ -140,13 +140,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val ma = maxOf(a,b,c)
-    val mi = minOf(a,b,c)
-    val sr = a+b+c-mi-ma
+    val max = maxOf(a,b,c)
+    val min = minOf(a,b,c)
+    val mid = a+b+c-min-max
    return when{
-        mi + sr <= ma -> -1
-        ma*ma > sr*sr+ mi*mi -> 2
-        ma*ma == sr*sr+mi*mi -> 1
+        min+mid <= max -> -1
+        max*max > mid*mid+min*min -> 2
+        max*max == mid*mid+min*min -> 1
         else -> 0
     }
 }
