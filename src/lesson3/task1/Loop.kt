@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import lesson1.task1.sqr
@@ -39,7 +40,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -68,10 +69,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var number = n/10
-    var cout =1
-    while (number>0) {
-        cout ++
+    var number = abs(n) / 10
+    var cout = 1
+    while (number > 0) {
+        cout++
         number /= 10
     }
     return cout
@@ -84,11 +85,11 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var cout =1
-    var ixm =1
-    var izm =1
-    for (i in 3..n){
-        cout = izm +ixm
+    var cout = 1
+    var ixm = 1
+    var izm = 1
+    for (i in 3..n) {
+        cout = izm + ixm
         ixm = izm
         izm = cout
     }
@@ -103,9 +104,9 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var cout = max(m,n)
-    while ((cout % m != 0 ) || (cout % n != 0)){
-        cout += max(n,m)
+    var cout = max(m, n)
+    while ((cout % m != 0) || (cout % n != 0)) {
+        cout += max(n, m)
     }
     return cout
 }
@@ -118,10 +119,10 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     return if (isPrime(n)) {
         n
-    } else{
-        var del=2
-        while(n % del !=0){
-            del +=1
+    } else {
+        var del = 2
+        while (n % del != 0) {
+            del += 1
         }
         del
     }
@@ -132,10 +133,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    val minDiv=minDivisor(n)
-    return n/minDiv
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -161,9 +159,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k: Long = 1
-    while (k*k<m) k += 1
-    return n >= k*k
+    var k: Long = 0
+    while (k * k < m) k += 1
+    return n >= k * k
 }
 
 /**
@@ -183,12 +181,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * этого для какого-либо начального X > 0.
  */
 fun collatzSteps(x: Int): Int {
-    var kollatz =x
-    var sum =0
-    while (kollatz != 1){
-        if (kollatz % 2 == 0) kollatz /=2
-        else kollatz =kollatz*3+1
-        sum +=1
+    var kollatz = x
+    var sum = 0
+    while (kollatz != 1) {
+        if (kollatz % 2 == 0) kollatz /= 2
+        else kollatz = kollatz * 3 + 1
+        sum += 1
     }
     return sum
 }
@@ -201,17 +199,18 @@ fun collatzSteps(x: Int): Int {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    val x2 =x%(2.0*PI)
-    var sum =0.0
-    var change=x2
-    var n=1
-    while (abs(change/ factorial(n))>=eps){
-        sum+=change/ factorial(n)
-        n+=2
-        change*=(-x2)*x2
+    val x2 = x % (2.0 * PI)
+    var sum = 0.0
+    var change = x2
+    var n = 1
+    while (abs(change / factorial(n)) >= eps) {
+        sum += change / factorial(n)
+        n += 2
+        change *= (-x2) * x2
     }
     return sum
 }
+
 /**
  * Средняя
  *
@@ -220,14 +219,14 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    val x2 =x%(2.0*PI)
-    var sum =1.0
-    var change=-x2*x2
-    var n=2
-    while (abs(change/ factorial(n))>=eps){
-        sum+=change/ factorial(n)
-        n+=2
-        change*=(-x2)*x2
+    val x2 = x % (2.0 * PI)
+    var sum = 1.0
+    var change = -x2 * x2
+    var n = 2
+    while (abs(change / factorial(n)) >= eps) {
+        sum += change / factorial(n)
+        n += 2
+        change *= (-x2) * x2
     }
     return sum
 }
@@ -240,11 +239,11 @@ fun cos(x: Double, eps: Double): Double {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int {
-    var change =n
-    var back=0
-    while (change>0){
-        back=back*10+change%10
-        change/=10
+    var change = n
+    var back = 0
+    while (change > 0) {
+        back = back * 10 + change % 10
+        change /= 10
     }
     return back
 }
@@ -258,9 +257,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    return revert(n)==n
-}
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -271,10 +268,11 @@ fun isPalindrome(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var change=n
-    while (change > 9){
-        if (change%10!=change%100/10) return true
-        change/=10
+    var change = n / 10
+    val x = n % 10
+    while (change > 0) {
+        if (change % 10 != x) return true
+        change /= 10
     }
     return false
 }
@@ -289,23 +287,23 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var k=1
-    var i=1
-    var x : Int
-    while (k < n){
-        i+=1
-        x= sqr(i)
-        while (x!=0) {
+    var k = 1
+    var i = 1
+    var x: Int
+    while (k < n) {
+        i += 1
+        x = sqr(i)
+        while (x != 0) {
             k += 1
             x /= 10
         }
     }
-    x= sqr(i)
-    while (k-n!=0){
-        x/=10
-        k-=1
+    x = sqr(i)
+    while (k - n != 0) {
+        x /= 10
+        k -= 1
     }
-    return(x%10)
+    return (x % 10)
 }
 
 /**
@@ -318,22 +316,22 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var x : Int
-    var k=1
-    var i=1
-    while (k < n){
-        i+=1
-        x= fib(i)
-        while (x!=0) {
+    var x: Int
+    var k = 1
+    var i = 1
+    while (k < n) {
+        i += 1
+        x = fib(i)
+        while (x != 0) {
             k += 1
             x /= 10
         }
     }
-    x= fib(i)
-    while (k-n!=0){
-        x/=10
-        k-=1
+    x = fib(i)
+    while (k - n != 0) {
+        x /= 10
+        k -= 1
     }
-    return(x%10)
+    return (x % 10)
 }
 

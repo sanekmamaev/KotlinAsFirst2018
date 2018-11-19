@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -21,8 +22,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val first = number/1000+(number/100)%10
-    val second = number%10+(number % 100)/10
+    val first = number / 1000 + (number / 100) % 10
+    val second = number % 10 + (number % 100) / 10
     return first == second
 }
 
@@ -33,9 +34,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return (x1 == x2) || (y1 == y2) || (abs(x1-x2) == abs(y1-y2))
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+        (x1 == x2) || (y1 == y2) || (abs(x1 - x2) == abs(y1 - y2))
 
 
 /**
@@ -45,11 +45,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
-         return when (month){
-            1,3,5,7,8,10,12-> 31
-            2 -> if ((year % 4 == 0)&&(year % 400 != 100)&&(year % 400 != 200)&&(year % 400 != 300)) 29 else 28
-            else -> 30
-        }
+    return when (month) {
+        1, 3, 5, 7, 8, 10, 12 -> 31
+        2 -> if ((year % 4 == 0) && (year % 400 != 100) && (year % 400 != 200) && (year % 400 != 300)) 29 else 28
+        else -> 30
+    }
 }
 
 /**
@@ -61,7 +61,7 @@ fun daysInMonth(month: Int, year: Int): Int {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    val rs=r2- trackLength(x1,y1,x2,y2)
+    val rs = r2 - trackLength(x1, y1, x2, y2)
     return rs >= r1
 }
 
@@ -75,10 +75,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val first=minOf(a,b,c)
-    val max=maxOf(a,b,c)
-    val second=a+b+c-first-max
-    val third=minOf(r,s)
-    val fourth=maxOf(r,s)
+    val first = minOf(a, b, c)
+    val max = maxOf(a, b, c)
+    val second = a + b + c - first - max
+    val third = minOf(r, s)
+    val fourth = maxOf(r, s)
     return ((first <= third) && (second <= fourth))
 }
