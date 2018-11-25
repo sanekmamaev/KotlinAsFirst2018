@@ -132,7 +132,14 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    if (a.size <= b.size)
+        for ((key, value) in a)
+            if (b[key] != a[key]) return false
+            else for ((key, value) in a)
+                if (b[key] != a[key]) return false
+    return true
+}
 
 /**
  * Средняя
@@ -161,7 +168,8 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? =
+    stuff.filter{ kind == it.value.first}.minBy{it.value.second}?.key
 
 /**
  * Сложная
