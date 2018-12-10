@@ -203,10 +203,12 @@ fun sin(x: Double, eps: Double): Double {
     var sum = 0.0
     var change = x2
     var n = 1
-    while (abs(change / factorial(n)) >= eps) {
-        sum += change / factorial(n)
+    var k = change / factorial(n)
+    while (abs(k) >= eps) {
+        sum += k
         n += 2
         change *= (-x2) * x2
+        k = change / factorial(n)
     }
     return sum
 }
@@ -223,10 +225,12 @@ fun cos(x: Double, eps: Double): Double {
     var sum = 1.0
     var change = -x2 * x2
     var n = 2
-    while (abs(change / factorial(n)) >= eps) {
-        sum += change / factorial(n)
+    var k = change / factorial(n)
+    while (abs(k) >= eps) {
+        sum += k
         n += 2
         change *= (-x2) * x2
+        k = change / factorial(n)
     }
     return sum
 }
