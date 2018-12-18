@@ -120,6 +120,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val mapBack = mutableMapOf<Int, List<String>>()
     for ((name, grade) in grades)
         mapBack[grade] = mapBack.getOrDefault(grade, listOf()) + listOf(name)
+    mapBack.forEach{it.value.sortedDescending()}
     return mapBack
 }
 
@@ -199,20 +200,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val mapBack = mutableMapOf<String, MutableSet<String>>()
-    for ((name, friend) in friends) {
-        mapBack[name] = friend.toMutableSet()
-        for (friendOut in friend) if (friendOut !in mapBack) mapBack[friendOut] = mutableSetOf()
-    }
-    for ((name, friend) in friends)
-        friend.forEach{
-            if (friends[it] != null)
-                mapBack[name]?.addAll(friends[it]?.filter { it != name } ?: setOf())
-        }
-    return mapBack
-}
-
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> =TODO()
 /**
  * Простая
  *
@@ -227,14 +215,22 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TODO()
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMap<String, String> {
+    for((key,value) in b) {
+        if (value == a[key])
+        a.remove(key)
+    }
+    return a
+}
 
 /**
  * Простая
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> =
+    a.toSet().intersect(b.toSet()).toList()
+
 
 /**
  * Средняя
@@ -245,7 +241,11 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val check = mutableSetOf<Char>()
+    word.forEach {check.add(it) }
+    return (check - chars.toSet()).isEmpty()
+}
 
 /**
  * Средняя
@@ -259,7 +259,21 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val check = mutableMapOf<String, Int>()
+    val delete = mutableListOf<String>()
+    list.forEach {
+        if (it in check)
+            check[it]= check[it]!!+ 1
+        else
+            check[it] = 1
+    }
+    check.forEach {
+        if (it.value == 1)
+            delete.add(it.key)
+    }
+    return check - delete
+}
 
 /**
  * Средняя
@@ -270,7 +284,18 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val check = words.toMutableList()
+    val letter = mutableSetOf<Char>()
+    words.forEach {it1->
+        check.remove(it1)
+        check.forEach { it2 ->
+            it1.forEach{it3->letter.add(it3)}
+            if (canBuildFrom((letter.toList()), it2 )) return true
+        }
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -289,7 +314,15 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val check = list.toMutableList()
+    list.forEach {
+        check.remove(it)
+        if ((number - it) in check)
+            return Pair(list.indexOf(it), list.indexOf(number - it))
+    }
+    return Pair(-1,-1)
+}
 
 /**
  * Очень сложная

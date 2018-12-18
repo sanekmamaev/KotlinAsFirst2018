@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -148,8 +149,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = if ((a.isEmpty()) || (b.isEmpty())) 0.0
-else
+fun times(a: List<Double>, b: List<Double>): Double =
     a.foldIndexed(0.0) { index, acc, d ->
         acc + d * b[index]
     }
@@ -162,16 +162,10 @@ else
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = if (p.isEmpty()) 0.0
-else {
-    var sum = 0.0
-    var stp = 1.0
-    p.forEach {
-        sum += it * stp
-        stp *= x
+fun polynom(p: List<Double>, x: Double): Double =
+    p.foldIndexed(0.0) {index,acc, d ->
+        acc+d*x.pow(index)
     }
-    sum
-}
 
 
 /**
@@ -260,10 +254,10 @@ fun convertToString(n: Int, base: Int): String {
     val back = convert(n, base) as MutableList<Int>
     var str = ""
     for (i in 0 until back.size)
-        if (back[i] > 9)
-            str += ('a' - 10 + back[i]).toString()
+        str += if (back[i] > 9)
+            ('a' - 10 + back[i]).toString()
         else
-            str += back[i].toString()
+            back[i].toString()
     return str
 }
 
