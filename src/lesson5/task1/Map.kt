@@ -243,8 +243,9 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> =
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val check = mutableSetOf<Char>()
-    word.forEach {check.add(it) }
-    return (check - chars.toSet()).isEmpty()
+    chars.toString().toLowerCase().toSet()
+    word.toLowerCase().forEach {check.add(it) }
+    return (check - chars).isEmpty()
 }
 
 /**
@@ -291,7 +292,7 @@ fun hasAnagrams(words: List<String>): Boolean {
         check.remove(it1)
         check.forEach { it2 ->
             it1.forEach{it3->letter.add(it3)}
-            if (canBuildFrom((letter.toList()), it2 )) return true
+            if (canBuildFrom((letter.toList()), it2 ) && (letter.size == it2.length)) return true
         }
     }
     return false
