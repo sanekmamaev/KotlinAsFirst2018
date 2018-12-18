@@ -49,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -71,7 +69,22 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+val dataMonth = listOf("января", "Февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября",
+        "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    val date = str.split(" ")
+    if ((date.size != 3) || (date[1] !in dataMonth))
+        return ""
+    val day = date[0].toIntOrNull()
+    val month = dataMonth.indexOf(date[1]) + 1
+    val year = date[2].toIntOrNull()
+    if ((day == null) || (year == null) || (day == 0)) return ""
+    if (((day > 30) && ((month == 4) || (month == 6) || (month == 9) || (month == 11))) || (date[0].toInt() > 31) ||
+            ((day > 28) && (month == 2) && ((year % 4 != 0) || ((year % 100 == 0) && (year % 400 != 0)))) ||
+            ((day > 29) && (month == 2)) || (date[0].toInt() > 31)) return ""
+    return String.format("%02d.%02d.%s", day, month, year)
+}
 
 /**
  * Средняя
@@ -83,7 +96,22 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val date = digital.split(".")
+    if (date.size != 3)
+        return ""
+    val day = date[0].toIntOrNull()
+    val year = date[2].toIntOrNull()
+    val monthFirst = date[1].toIntOrNull()
+    if ((day == null) || (monthFirst == null) || (year == null) || (day == 0) || (monthFirst == 0))
+        return ""
+    if (((day > 28) && (monthFirst == 2) && ((year % 4 != 0) || ((year % 100 == 0) &&
+                    (year % 400 != 0)))) || ((day > 29) && (monthFirst == 2)) || (date[0].toInt() > 31) ||
+            date[1].toInt() > 12)
+        return ""
+    val month = dataMonth[monthFirst - 1]
+    return "$day $month $year"
+}
 
 /**
  * Средняя
@@ -97,7 +125,10 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String = if (Regex("""^(\+\d+)?(\(\d+\))\d+|\d+""")
+                .matches(phone.replace(Regex("""[\s-]"""), "")))
+    phone.replace(Regex("""[()\s-]"""), "")
+else ""
 
 /**
  * Средняя
@@ -109,7 +140,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val jumpers = jumps.replace(Regex("""%\s?|-\s?"""), "").trim()
+    val jump = jumpers.split(" ")
+    val maxJump = mutableSetOf<Int>()
+    jump.forEach {
+        if ((it.toIntOrNull() == null)) return -1
+        else
+            maxJump.add(it.toInt())
+    }
+    if (maxJump.isEmpty()) return -1
+    return maxJump.max()!!
+}
 
 /**
  * Сложная
@@ -121,7 +163,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (!jumps.contains(Regex("""[+]""")))
+        return -1
+    val jump = jumps.replace(Regex("""\d+\s%+-|\d\s-|\d+\s%+\s+|\d+\s%+-?$"""), "")
+    var back = jump.replace(Regex("""\s%?\+|\s%+\+"""), "")
+    back = back.replace(Regex("""\s+"""), " ").trim()
+    val maxJump = back.split(" ")
+    return maxJump.map { it.toInt() }.max()!!
+}
 
 /**
  * Сложная
